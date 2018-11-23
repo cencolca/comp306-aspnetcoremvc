@@ -1,0 +1,63 @@
+﻿@model Product
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="product-details mt-5">
+    <div class="product-images">
+        <ul thumb>
+            <li>
+                <img src="https://picsum.photos/300/200/?random&1" />
+            </li>
+            <li>
+                <img src="https://picsum.photos/300/200/?random&2" />
+            </li>
+            <li>
+                <img src="https://picsum.photos/300/200/?random&3" />
+            </li>
+            <li>
+                <img src="https://picsum.photos/300/200/?random&4" />
+            </li>
+            <li>
+                <img src="https://picsum.photos/300/200/?random&5" />
+            </li>
+        </ul>
+    </div>
+    <div class="product-info">
+        <h3>@(Model.Title)</h3>
+        <div class="rating">
+            @for (var k = 1; k <= Model.Rating; k++)
+            {
+                <span class="glyphicon glyphicon-star"></span>
+            }
+        </div>
+        <p class="category">
+            @foreach (ProductCategory item in Model.ProductCategory)
+            {
+                <a asp-action="Index"
+                   asp-route-c="@(item.CategoryId)"
+                   class="label-link">
+                    <span class="label label-default">@(item.Category.Title)</span>
+                </a>
+            }
+        </p>
+        <p class="price">
+            @{
+                if (Model.DiscountPrice > 0)
+                {
+                    <span class="text-danger"><strong>@String.Format("${0:n}", Model.DiscountPrice)</strong></span>
+                    <s>@String.Format("${0:n}", Model.Price)</s>
+                }
+                else
+                {
+                    @String.Format("${0:n}", Model.Price)
+                }
+            }
+        </p>
+        <p>
+            <button class="btn btn-primary"><span class="glyphicon glyphicon-shopping-cart mr-1"></span> Add to cart</button>
+        </p>
+        <p class="description">@(Model.Description)</p>
+    </div>
+</div>

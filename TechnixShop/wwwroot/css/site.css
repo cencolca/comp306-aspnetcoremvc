@@ -1,0 +1,112 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
+for details on configuring this project to bundle and minify static web assets. */
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"] {
+    width: 100%;
+}
+
+/* QR code generator */
+#qrCode {
+    margin: 15px;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}
+
+.product-details {
+    display: flex;
+}
+
+.product-details .product-images {
+    width: 300px;
+    margin-right: 2em;
+}
+
+.product-details .product-info {
+    flex: 1 1;
+}
+
+.product-info h3 {
+    margin-top: 0;
+}
+
+    .product-images ul {
+        list-style: none;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+.product-images li:nth-child(2n+1) {
+    padding-left: 0.5em;
+}
+
+.product-images li:nth-child(2n) {
+    padding-right: 0.5em;
+}
+
+.product-images li:first-child {
+    width: 100%;
+    display: block;
+    margin-bottom: 1em;
+    padding: 0;
+}
+
+.product-images li:not(:first-child) {
+    float: left;
+    width: 50%;
+    margin-bottom: 1em;
+    box-sizing: border-box;
+}
+
+.product-images li img {
+    width: 100%;
+    cursor: pointer;
+}
+
+a.label-link, a.label-link:hover, a.label-link:active, a.label-link:visited {
+    text-decoration: none;
+}
+
+a.card-link {
+    text-decoration: none;
+    color: #333;
+}
+
+.price {
+    font-size: 1.5em;
+}
+
+.rating {
+    color: goldenrod;
+    height: 1.5em;
+}
+
+.promotion-banner {
+    width: 100%;
+    height: auto;
+    display: block;
+}
