@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -75,6 +76,9 @@ namespace TechnixShop.Controllers
                 return NotFound();
             }
 
+            List<Category> categories = _context.Category.ToList();
+            ViewBag.categories = categories;
+
             var product = await _context.Product.FindAsync(id);
             if (product == null)
             {
@@ -88,12 +92,14 @@ namespace TechnixShop.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,ImageUrl,Price,DiscountPrice,Rating")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,ImageUrl,Price,DiscountPrice,Rating")] Product product, IFormCollection collection)
         {
             if (id != product.Id)
             {
                 return NotFound();
             }
+
+            string[] category = collection["category"];
 
             if (ModelState.IsValid)
             {

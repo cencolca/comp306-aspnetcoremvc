@@ -44,6 +44,12 @@
                 <span asp-validation-for="Rating" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label class="control-label">Category</label>
+                @Html.ListBox("Category", new MultiSelectList(ViewBag.categories as System.Collections.IEnumerable, "Id", "Title"), new { @class = "form-control", SelectionMode = "Single" })
+            </div>
+
+            
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </form>
