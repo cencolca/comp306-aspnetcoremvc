@@ -1,4 +1,4 @@
-﻿@model TechnixShop.Models.Product
+﻿@model TechnixShop.Models.ProductViewModels.AddProductModel
 
 @{
     ViewData["Title"] = "Create";
@@ -13,34 +13,38 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+                <label asp-for="Product.Title" class="control-label"></label>
+                <input asp-for="Product.Title" class="form-control" />
+                <span asp-validation-for="Product.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+                <label asp-for="Product.Description" class="control-label"></label>
+                <input asp-for="Product.Description" class="form-control" />
+                <span asp-validation-for="Product.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ImageUrl" class="control-label"></label>
-                <input asp-for="ImageUrl" class="form-control" />
-                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                <label asp-for="Product.ImageUrl" class="control-label"></label>
+                <input asp-for="Product.ImageUrl" class="form-control" />
+                <span asp-validation-for="Product.ImageUrl" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
+                <label asp-for="Product.Price" class="control-label"></label>
+                <input asp-for="Product.Price" class="form-control" />
+                <span asp-validation-for="Product.Price" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DiscountPrice" class="control-label"></label>
-                <input asp-for="DiscountPrice" class="form-control" />
-                <span asp-validation-for="DiscountPrice" class="text-danger"></span>
+                <label asp-for="Product.DiscountPrice" class="control-label"></label>
+                <input asp-for="Product.DiscountPrice" class="form-control" />
+                <span asp-validation-for="Product.DiscountPrice" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Rating" class="control-label"></label>
-                <input asp-for="Rating" class="form-control" />
-                <span asp-validation-for="Rating" class="text-danger"></span>
+                <label asp-for="Product.Rating" class="control-label"></label>
+                <input asp-for="Product.Rating" class="form-control" />
+                <span asp-validation-for="Product.Rating" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Category</label>
+                @Html.ListBoxFor(m => m.SelectedCategories, Model.Categories, new { @class = "form-control" })
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />

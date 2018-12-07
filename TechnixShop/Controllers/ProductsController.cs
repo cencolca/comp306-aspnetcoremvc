@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TechnixShop.Data;
 using TechnixShop.Models;
+using TechnixShop.Models.ProductViewModels;
 
 namespace TechnixShop.Controllers
 {
@@ -49,7 +50,15 @@ namespace TechnixShop.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            return View();
+            AddProductModel model = new AddProductModel();
+            List<Category> categories = _context.Category.ToList();
+            model.Categories = categories.Select(c => new SelectListItem
+            {
+                Text = c.Title,
+                Value = c.Id.ToString()
+            });
+
+            return View(model);
         }
 
         // POST: Products/Create
@@ -57,15 +66,20 @@ namespace TechnixShop.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,ImageUrl,Price,DiscountPrice,Rating")] Product product)
+        public async Task<IActionResult> Create(AddProductModel model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(product);
+                foreach (int catId in model.SelectedCategories)
+                {
+                    model.Product.ProductCategory.Add(new ProductCategory { CategoryId = catId, Product = model.Product });
+                }
+
+                _context.Add(model.Product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(product);
+            return View(model);
         }
 
         // GET: Products/Edit/5
@@ -76,15 +90,26 @@ namespace TechnixShop.Controllers
                 return NotFound();
             }
 
-            List<Category> categories = _context.Category.ToList();
-            ViewBag.categories = categories;
-
-            var product = await _context.Product.FindAsync(id);
+            Product product = await _context.Product
+               .Include(p => p.ProductCategory)
+               .Where(p => p.Id == id)
+               .SingleAsync();
             if (product == null)
             {
                 return NotFound();
             }
-            return View(product);
+
+            AddProductModel model = new AddProductModel();
+
+            List<Category> categories = _context.Category.ToList();
+            model.Categories = categories.Select(c => new SelectListItem
+            {
+                Text = c.Title,
+                Value = c.Id.ToString()
+            });
+            model.Product = product;
+
+            return View(model);
         }
 
         // POST: Products/Edit/5
@@ -92,25 +117,34 @@ namespace TechnixShop.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,ImageUrl,Price,DiscountPrice,Rating")] Product product, IFormCollection collection)
+        public async Task<IActionResult> Edit(int id, AddProductModel model, IFormCollection collection)
         {
-            if (id != product.Id)
+            if (id != model.Product.Id)
             {
                 return NotFound();
             }
 
-            string[] category = collection["category"];
+            Product productToUpdate = _context.Product
+               .Include(p => p.ProductCategory)
+               .Where(p => p.Id == id)
+               .Single();
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(product);
+                    productToUpdate.ProductCategory.Clear();
+                    foreach (int catId in model.SelectedCategories)
+                    {
+                        productToUpdate.ProductCategory.Add(new ProductCategory { CategoryId = catId, ProductId = id });
+                    }
+
+                    _context.Update(productToUpdate);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.Id))
+                    if (!ProductExists(id))
                     {
                         return NotFound();
                     }
@@ -121,7 +155,7 @@ namespace TechnixShop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(product);
+            return View(model);
         }
 
         // GET: Products/Delete/5
