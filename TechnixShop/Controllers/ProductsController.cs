@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -70,6 +71,17 @@ namespace TechnixShop.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (model.Image.Length > 0)
+                {
+                    using (var stream = new MemoryStream()) {
+                        await model.Image.CopyToAsync(stream);
+
+                        var fileBytes = stream.ToArray();
+                        string imageBase64 = Convert.ToBase64String(fileBytes);
+                        model.Product.ImageUrl = imageBase64;
+                    }
+                }
+
                 foreach (int catId in model.SelectedCategories)
                 {
                     model.Product.ProductCategory.Add(new ProductCategory { CategoryId = catId, Product = model.Product });
