@@ -8,7 +8,14 @@
     <div class="product-images">
         <ul thumb>
             <li>
-                <img src="https://picsum.photos/300/200/?random&1" />
+                @{ 
+                    if (!String.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="data:image/jpeg;base64,@(Model.ImageUrl)" alt="@(Model.Title)" />
+                    } else {
+                        <img src="https://picsum.photos/300/200/?random&1" />
+                    }
+                }
             </li>
             <li>
                 <img src="https://picsum.photos/300/200/?random&2" />

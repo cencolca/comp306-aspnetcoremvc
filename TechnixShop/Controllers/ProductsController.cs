@@ -27,7 +27,8 @@ namespace TechnixShop.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Product.ToListAsync());
+            var products = await _context.Product.OrderByDescending(p => p.Id).ToListAsync();
+            return View(products);
         }
 
         // GET: Products/Details/5
@@ -71,7 +72,7 @@ namespace TechnixShop.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (model.Image.Length > 0)
+                if (model.Image != null)
                 {
                     using (var stream = new MemoryStream()) {
                         await model.Image.CopyToAsync(stream);
@@ -129,7 +130,7 @@ namespace TechnixShop.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, AddProductModel model, IFormCollection collection)
+        public async Task<IActionResult> Edit(int id, AddProductModel model)
         {
             if (id != model.Product.Id)
             {
@@ -145,11 +146,29 @@ namespace TechnixShop.Controllers
             {
                 try
                 {
+                    if (model.Image != null)
+                    {
+                        using (var stream = new MemoryStream())
+                        {
+                            await model.Image.CopyToAsync(stream);
+
+                            var fileBytes = stream.ToArray();
+                            string imageBase64 = Convert.ToBase64String(fileBytes);
+                            productToUpdate.ImageUrl = imageBase64;
+                        }
+                    }
+
                     productToUpdate.ProductCategory.Clear();
                     foreach (int catId in model.SelectedCategories)
                     {
                         productToUpdate.ProductCategory.Add(new ProductCategory { CategoryId = catId, ProductId = id });
                     }
+
+                    productToUpdate.Title = model.Product.Title;
+                    productToUpdate.Description = model.Product.Description;
+                    productToUpdate.Price = model.Product.Price;
+                    productToUpdate.DiscountPrice = model.Product.DiscountPrice;
+                    productToUpdate.Rating = model.Product.Rating;
 
                     _context.Update(productToUpdate);
                     await _context.SaveChangesAsync();
