@@ -16,7 +16,7 @@
 <table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
-            <th class="col-md-2">
+            <th class="col-md-8">
                 @Html.DisplayNameFor(model => model.Title)
             </th>
             <th>
@@ -34,8 +34,8 @@
     <tbody>
         @foreach (var item in Model) {
         <tr>
-            <td >
-                <a asp-action="Details" class="btn " asp-route-id="@item.Id">
+            <td>
+                <a asp-action="Details" asp-controller="Home" asp-route-id="@item.Id">
                     @Html.DisplayFor(modelItem => item.Title)
                 </a>
             </td>
