@@ -24,7 +24,7 @@ namespace TechnixShop.Controllers
         [Route("buy/{id}")]
         public IActionResult Buy(string id)
         {
-            ProductFinderController productModel = new ProductFinderController();//////////////////////////////////////////
+            ProductFinderController productModel = new ProductFinderController();
             
             if (SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart") == null)
             {
@@ -64,7 +64,7 @@ namespace TechnixShop.Controllers
             List<Item> cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
             for (int i = 0; i < cart.Count; i++)
             {
-                if (cart[i].Product.Id.Equals(id))
+                if (cart[i].Product.Id.ToString().Equals(id))
                 {
                     return i;
                 }
