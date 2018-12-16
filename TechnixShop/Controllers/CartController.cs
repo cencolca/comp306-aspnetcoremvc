@@ -24,7 +24,8 @@ namespace TechnixShop.Controllers
         [Route("buy/{id}")]
         public IActionResult Buy(string id)
         {
-            ProductFinder productModel = new ProductFinder();
+            ProductFinderController productModel = new ProductFinderController();//////////////////////////////////////////
+            
             if (SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart") == null)
             {
                 List<Item> cart = new List<Item>();
