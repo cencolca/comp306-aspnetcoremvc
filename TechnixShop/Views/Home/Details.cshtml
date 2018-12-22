@@ -63,7 +63,7 @@
             }
         </p>
         <p>
-            <button class="btn btn-primary"><span class="glyphicon glyphicon-shopping-cart mr-1"></span> Add to cart</button>
+            <button class="btn btn-primary" onclick="location.href='@Url.Action("buy", "cart", new {id=Model.Id})'"><span class="glyphicon glyphicon-shopping-cart mr-1"></span> Add to cart</button>
         </p>
         <p class="description">@(Model.Description)</p>
     </div>

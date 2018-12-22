@@ -20,7 +20,7 @@ CREATE TABLE [dbo].[Product] (
     [Id]            INT             IDENTITY (1, 1) NOT NULL,
     [Title]         NVARCHAR (200)  NULL,
     [Description]   NVARCHAR (2000) NULL,
-    [ImageURL]      NCHAR (200)     NULL,
+    [ImageURL]      TEXT     NULL,
     [Price]         DECIMAL (18)    NULL,
     [DiscountPrice] DECIMAL (18)    NULL,
     [Rating]        INT             NOT NULL

@@ -52,7 +52,7 @@ namespace TechnixShop
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-
+            services.AddSession();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             //services.AddFirebaseAuthentication(Configuration["FirebaseAuthentication:Issuer"], Configuration["FirebaseAuthentication:Audience"]);
 
@@ -82,7 +82,7 @@ namespace TechnixShop
             app.UseCookiePolicy();
 
             app.UseAuthentication();
-
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
